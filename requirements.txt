@@ -1,0 +1,7 @@
+streamlit
+streamlit-option-menu
+google-generativeai
+PyPDF2
+python-docx
+python-dotenv
+jinja2

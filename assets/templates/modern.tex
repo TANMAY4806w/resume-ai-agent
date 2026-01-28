@@ -1,0 +1,111 @@
+\documentclass[a4paper,12pt]{article}
+
+% --- PACKAGES ---
+\usepackage{parskip} 	
+\RequirePackage{color}
+\RequirePackage{graphicx}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[scale=0.9]{geometry}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\newcolumntype{C}{>{\centering\arraybackslash}X} 
+\usepackage{supertabular}
+\usepackage{titlesec}				
+\usepackage{multicol}
+\usepackage{multirow}
+\titleformat{\section}{\Large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{10pt}{10pt}
+\usepackage[unicode, draft=false]{hyperref}
+\definecolor{linkcolour}{rgb}{0,0.2,0.6}
+\hypersetup{colorlinks,breaklinks,urlcolor=linkcolour,linkcolor=linkcolour}
+\usepackage{fontawesome5}
+
+% --- CUSTOM ENVIRONMENTS ---
+\newenvironment{jobshort}[2]
+    {
+    \begin{tabularx}{\linewidth}{@{}l X r@{}}
+    \textbf{#1} & \hfill &  #2 \\[3.75pt]
+    \end{tabularx}
+    }
+    {}
+
+\newenvironment{joblong}[2]
+    {
+    \begin{tabularx}{\linewidth}{@{}l X r@{}}
+    \textbf{#1} & \hfill &  #2 \\[3.75pt]
+    \end{tabularx}
+    \begin{minipage}[t]{\linewidth}
+    \begin{itemize}[nosep,after=\strut, leftmargin=1em, itemsep=3pt,label=--]
+    }
+    {
+    \end{itemize}
+    \end{minipage}    
+    }
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+\pagestyle{empty} 
+
+% --- HEADER ---
+\begin{tabularx}{\linewidth}{@{} C @{}}
+\Huge{\VAR{name}} \\[7.5pt]
+\BLOCK{if github}
+\href{https://github.com/\VAR{github}}{\raisebox{-0.05\height}\faGithub\ \VAR{github}} \ $|$ \ 
+\BLOCK{endif}
+\BLOCK{if linkedin}
+\href{https://linkedin.com/in/\VAR{linkedin}}{\raisebox{-0.05\height}\faLinkedin\ \VAR{linkedin}} \ $|$ \ 
+\BLOCK{endif}
+\BLOCK{if website}
+\href{\VAR{website}}{\raisebox{-0.05\height}\faGlobe \ \VAR{website}} \ $|$ \ 
+\BLOCK{endif}
+\href{mailto:\VAR{email}}{\raisebox{-0.05\height}\faEnvelope \ \VAR{email}} \ $|$ \ 
+\href{tel:\VAR{phone}}{\raisebox{-0.05\height}\faMobile \ \VAR{phone}} \\
+\end{tabularx}
+
+% --- SUMMARY ---
+\section{Summary}
+\VAR{summary}
+
+% --- EXPERIENCE ---
+\section{Work Experience}
+
+\BLOCK{for job in experience}
+    \begin{joblong}{\VAR{job.title}}{\VAR{job.dates}}
+    \BLOCK{for bullet in job.bullets}
+    \item \VAR{bullet}
+    \BLOCK{endfor}
+    \end{joblong}
+\BLOCK{endfor}
+  
+% --- PROJECTS ---
+\section{Projects}
+
+\BLOCK{for proj in projects}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\textbf{\VAR{proj.name}} & \hfill \href{\VAR{proj.link}}{Link to Demo} \\[3.75pt]
+\multicolumn{2}{@{}X@{}}{\VAR{proj.description}}  \\
+\end{tabularx}
+\BLOCK{endfor}
+
+% --- EDUCATION ---
+\section{Education}
+\BLOCK{for edu in education}
+\begin{tabularx}{\linewidth}{@{}l X r@{}}
+\textbf{\VAR{edu.school}} & \hfill & \VAR{edu.year} \\[3.75pt]
+\end{tabularx}
+\VAR{edu.degree} \hfill \normalsize GPA: \VAR{edu.gpa}
+\vspace{6pt}
+\BLOCK{endfor}
+
+% --- SKILLS ---
+\section{Skills}
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\BLOCK{for skill_cat in skills}
+\VAR{skill_cat.category} &  \normalsize{\VAR{skill_cat['items']}}\\
+\BLOCK{endfor}
+\end{tabularx}
+
+\vfill
+\center{\footnotesize Last updated: \VAR{today}}
+
+\end{document}

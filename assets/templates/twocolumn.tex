@@ -1,0 +1,94 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=0.5in]{geometry} % Narrow margins
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+% COLORS
+\definecolor{primary}{RGB}{50, 50, 50} % Dark Grey
+\definecolor{accent}{RGB}{0, 100, 200} % Blue Accent
+
+% FONT SETTINGS
+\renewcommand{\familydefault}{\sfdefault} % Sans-serif font
+
+% SECTION FORMATTING
+\titleformat{\section}{\large\bfseries\color{accent}\uppercase}{}{0em}{}[\hrule]
+
+% BULLET POINT SETTINGS
+\setlist[itemize]{leftmargin=*, noitemsep, topsep=0pt}
+
+\begin{document}
+
+% --- HEADER ---
+\begin{center}
+    {\Huge\textbf{\VAR{name}}} \\ \vspace{0.2cm}
+    \small
+    \VAR{phone} $|$ \href{mailto:\VAR{email}}{\VAR{email}} 
+    \BLOCK{if linkedin} $|$ \href{https://linkedin.com/in/\VAR{linkedin}}{LinkedIn} \BLOCK{endif}
+    \BLOCK{if github} $|$ \href{https://github.com/\VAR{github}}{GitHub} \BLOCK{endif}
+\end{center}
+
+\vspace{0.5cm}
+
+% --- TWO COLUMN LAYOUT ---
+\noindent
+\begin{minipage}[t]{0.30\textwidth} % LEFT COLUMN (30% Width)
+    \vspace{0pt} % Align top
+
+    % EDUCATION
+    \section{Education}
+    \BLOCK{for edu in education}
+        \textbf{\VAR{edu.school}} \\
+        \textit{\VAR{edu.degree}} \\
+        \small \VAR{edu.year} \\
+        \small GPA: \VAR{edu.gpa} \\
+        \vspace{0.2cm}
+    \BLOCK{endfor}
+
+    % SKILLS
+    \section{Skills}
+    \BLOCK{for skill in skills}
+        \textbf{\VAR{skill.category}} \\
+        \small \VAR{skill.items} \\
+        \vspace{0.1cm}
+    \BLOCK{endfor}
+
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.66\textwidth} % RIGHT COLUMN (66% Width)
+    \vspace{0pt} % Align top
+
+    % SUMMARY
+    \section{Profile}
+    \small \VAR{summary}
+    \vspace{0.3cm}
+
+    % EXPERIENCE
+    \section{Experience}
+    \BLOCK{for job in experience}
+        \textbf{\VAR{job.title}} \\
+        \textit{\VAR{job.company}} \hfill \small \VAR{job.dates}
+        \begin{itemize}
+            \BLOCK{for bullet in job.bullets}
+            \item \VAR{bullet}
+            \BLOCK{endfor}
+        \end{itemize}
+        \vspace{0.2cm}
+    \BLOCK{endfor}
+
+    % PROJECTS
+    \section{Projects}
+    \BLOCK{for proj in projects}
+        \textbf{\VAR{proj.name}} \BLOCK{if proj.link} \hfill \href{\VAR{proj.link}}{\textit{Link}} \BLOCK{endif}
+        \begin{itemize}
+            \item \VAR{proj.description}
+        \end{itemize}
+        \vspace{0.1cm}
+    \BLOCK{endfor}
+
+\end{minipage}
+
+\end{document}
