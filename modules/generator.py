@@ -105,6 +105,52 @@ def generate_resume_pdf(data, template_name="modern", output_dir="output"):
             'category': 'Skills',
             'items': 'Please update your skills section'
         }]
+    
+    # Validate and ensure all sections have at least one entry
+    if not clean_data.get('experience'):
+        clean_data['experience'] = [{
+            'title': 'Your Job Title',
+            'company': 'Company Name',
+            'dates': '2020 - Present',
+            'bullets': ['Add your experience details']
+        }]
+    
+    if not clean_data.get('education'):
+        clean_data['education'] = [{
+            'school': 'Your University',
+            'degree': 'Your Degree',
+            'year': '2020',
+            'gpa': '3.5'
+        }]
+    
+    if not clean_data.get('projects'):
+        clean_data['projects'] = [{
+            'name': 'Your Project',
+            'description': 'Project description',
+            'link': ''
+        }]
+    
+    # Ensure all experience entries have bullets
+    for exp in clean_data.get('experience', []):
+        if not exp.get('bullets') or len(exp.get('bullets', [])) == 0:
+            exp['bullets'] = ['Responsibilities and achievements']
+    
+    # Ensure all required fields exist with defaults
+    for exp in clean_data.get('experience', []):
+        exp.setdefault('title', 'Position')
+        exp.setdefault('company', 'Company')
+        exp.setdefault('dates', '2020')
+    
+    for edu in clean_data.get('education', []):
+        edu.setdefault('school', 'University')
+        edu.setdefault('degree', 'Degree')
+        edu.setdefault('year', '2020')
+        edu.setdefault('gpa', '3.0')
+    
+    for proj in clean_data.get('projects', []):
+        proj.setdefault('name', 'Project')
+        proj.setdefault('description', 'Description')
+        proj.setdefault('link', '')
 
 
 
